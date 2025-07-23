@@ -11,34 +11,35 @@ import {
 
 interface CalloutProps {
   fields: {
-    image?: ImageField; // Optional image field
-    title: Field<string>; // Required title field
-    description?: Field<string>; // Optional description field
-    button?: LinkField; // Optional button link field
-    backgroundColor: Field<string>; // Dropdown for background color
+    image?: ImageField;
+    title: Field<string>;
+    description?: Field<string>;
+    button?: LinkField;
+    backgroundColor: Field<string>;
   };
 }
 
-const Callout = ({ fields }: CalloutProps): JSX.Element => {
-  const backgroundClass =
-    fields.backgroundColor?.value === 'Primary' ? 'callout-primary' : 'callout-secondary';
+const Callout = ({ fields }: CalloutProps) => {
+  const backgroundClass = fields.backgroundColor?.value || 'primary';
 
   return (
-    <div className={`callout-component ${backgroundClass}`}>
-      <div className="callout-content">
-        {fields.image && (
-          <Image field={fields.image} alt={fields.title.value} className="callout-image" />
-        )}
-        <Text tag="h2" field={fields.title} className="callout-title" />
-        {fields.description && (
-          <RichText field={fields.description} className="callout-description" />
-        )}
-        {fields.button && (
-          <Link field={fields.button} className="callout-button">
-            {fields.button.value?.text}
-          </Link>
-        )}
+    <div
+      className={`component callout flex flex-col items-center gap-20 mx-auto md:flex-row md:w-11/12 padding-callout ${backgroundClass}`}
+    >
+      {fields.image && (
+        <div className="flex-none">
+          <Image field={fields.image} alt={fields.title.value} className="w-70 h-70" />
+        </div>
+      )}
+      <div className="text-center md:text-left grow">
+        <Text tag="h2" field={fields.title} className="mb-8 title5" />
+        {fields.description && <RichText field={fields.description} className="body2" />}
       </div>
+      {fields.button && (
+        <div className="flex-none w-full sm:w-fit">
+          <Link field={fields.button} className={`mx-auto mt-0`} />
+        </div>
+      )}
     </div>
   );
 };
